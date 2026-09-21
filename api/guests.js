@@ -33,6 +33,7 @@ function clean(b) {
     dishes: away ? [] : (Array.isArray(b.dishes) ? b.dishes : []).slice(0, 8)
       .map((d) => ({ t: String((d && d.t) || '').trim().slice(0, 30), c: CATS.includes(d && d.c) ? d.c : 'main' }))
       .filter((d) => d.t),
+    activity: away ? '' : String(b.activity || '').trim().slice(0, 40),
     updatedAt: Date.now(),
   };
 }
