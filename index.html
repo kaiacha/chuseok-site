@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0d29">
+<meta property="og:title" content="추석 포트럭">
+<meta property="og:description" content="9월 24일 (목) 저녁 6시 · Tempe, AZ · 달도 차고 배도 차는 날, 빈손만 아니면 됩니다…">
+<style>[hidden]{display:none!important} img{max-width:100%}</style>
+<title>추석 포트럭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Myeongjo:wght@700;800&family=Nanum+Pen+Script&display=swap">
+<style>
+  /* 밤하늘 + 보름달: 슬라이드의 톤을 그대로 가져간 단일 테마 (라이트/다크 전환 없음) */
+  :root {
+    color-scheme: dark;
+    --sky-0: #0b0d29;
+    --sky-1: #12143a;
+    --sky-2: #1c1640;
+    --sky-3: #2a1538;
+    --ink: #FFF4E2;
+    --mist: #A9B1D6;
+    --gold: #E9C77E;
+    --seal: #CE4744;
+    --gold-ink: #1b1638;
+    --panel: rgba(20, 22, 60, .8);
+    --field: rgba(8, 10, 32, .62);
+    --line: rgba(169, 177, 214, .24);
+    --line-strong: rgba(169, 177, 214, .42);
+    --serif: 'Nanum Myeongjo', 'AppleMyungjo', 'Batang', serif;
+    --sans: 'Gowun Dodum', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+    --hand: 'Nanum Pen Script', 'Nanum Myeongjo', serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--sky-0);
+    color: var(--ink);
+    font: 16px/1.6 var(--sans);
+    -webkit-text-size-adjust: 100%;
+    word-break: keep-all; overflow-wrap: break-word;
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+  .sky {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(60% 45% at 82% 6%, rgba(233, 199, 126, .16), transparent 70%),
+      linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 42%, var(--sky-2) 78%, var(--sky-3) 100%);
+  }
+  .sky canvas { width: 100%; height: 100%; display: block; }
+
+  .page {
+    position: relative; z-index: 1;
+    max-width: 1080px; margin-inline: auto;
+    padding-inline: 20px; padding-block: 8px 48px;
+  }
+
+  a { color: var(--gold); text-underline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+  /* ── Hero ───────────────────────────── */
+  .hero { position: relative; padding-block: 150px 36px; }
+  .moon {
+    position: absolute; top: 20px; right: 0; z-index: 0;
+    width: clamp(120px, 30vw, 220px); aspect-ratio: 1; max-width: 100%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 34% 30%, rgba(200, 180, 130, .35) 0 9%, transparent 10%),
+      radial-gradient(circle at 62% 58%, rgba(200, 180, 130, .28) 0 12%, transparent 13%),
+      radial-gradient(circle at 46% 78%, rgba(200, 180, 130, .22) 0 6%, transparent 7%),
+      radial-gradient(circle at 38% 34%, #fffaf0 0%, #f7ebcb 48%, #ecdcb0 100%);
+    box-shadow: 0 0 50px 16px rgba(255, 244, 226, .22), 0 0 150px 60px rgba(233, 199, 126, .12);
+  }
+  .hero > *:not(.moon) { position: relative; z-index: 1; }
+  .eyebrow { margin: 0; font: 400 clamp(28px, 6vw, 40px)/1.15 var(--hand); color: var(--gold); }
+  h1 {
+    margin: 4px 0 10px;
+    font: 800 clamp(56px, 14vw, 112px)/1.05 var(--serif);
+    letter-spacing: -.01em; color: var(--ink);
+    text-wrap: balance;
+  }
+  .lede { margin: 0; max-width: 32ch; color: var(--mist); font-size: clamp(16px, 2.6vw, 19px); text-wrap: balance; }
+  .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 26px; }
+  .dday {
+    font: 700 15px/1 var(--serif); color: var(--gold);
+    border: 1px solid var(--gold); border-radius: 999px; padding: 9px 14px;
+    letter-spacing: .04em;
+  }
+
+  /* ── Buttons & fields ───────────────── */
+  .btn {
+    appearance: none; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding: 12px 26px; border-radius: 999px;
+    font: 16px/1 var(--sans); letter-spacing: .02em;
+    border: 1.5px solid var(--gold); background: var(--gold); color: var(--gold-ink);
+    transition: transform .12s ease, background .12s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:disabled { opacity: .55; cursor: default; transform: none; }
+  .btn.ghost { background: transparent; color: var(--gold); min-height: 46px; padding-inline: 20px; }
+  .btn.ghost:hover { background: rgba(233, 199, 126, .1); }
+  .link {
+    appearance: none; background: none; border: 0; padding: 8px 4px; cursor: pointer;
+    font: 14px/1.2 var(--sans); color: var(--mist); text-decoration: underline; text-underline-offset: 3px;
+  }
+  .link.danger:hover { color: #ff9c98; }
+
+  input[type="text"], input[type="time"] {
+    width: 100%; min-height: 48px; padding: 11px 14px;
+    background: var(--field); color: var(--ink);
+    border: 1px solid var(--line-strong); border-radius: 12px;
+    font: 16px/1.3 var(--sans);
+  }
+  input::placeholder { color: rgba(169, 177, 214, .68); }
+  input[type="text"]:focus, input[type="time"]:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+
+  /* ── Layout ─────────────────────────── */
+  .layout { display: flex; flex-direction: column; gap: 44px; }
+  .col { display: contents; }
+  .info { order: 1; } .rsvp { order: 2; } .board { order: 3; } .parking { order: 4; }
+  @media (min-width: 880px) {
+    .hero { padding-block: 116px 44px; }
+    .layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 56px; align-items: start; }
+    .col { display: flex; flex-direction: column; gap: 48px; }
+  }
+
+  /* 슬라이드의 "● 라벨" 패턴 */
+  .lbl {
+    display: flex; align-items: center; gap: 10px;
+    margin: 0 0 6px; color: var(--gold);
+    font: 700 15px/1.2 var(--sans); letter-spacing: .1em;
+  }
+  .lbl::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); flex: none; }
+  h2.lbl { font-family: var(--sans); font-weight: 400; }
+
+  .fact + .fact { margin-top: 30px; }
+  .val { margin: 0; font: 700 clamp(25px, 5.4vw, 32px)/1.3 var(--serif); }
+  .addr { margin: 4px 0 0; font: 700 clamp(18px, 4vw, 21px)/1.4 var(--serif); }
+  .pinnote { display: flex; align-items: center; gap: 6px; margin: 8px 0 0; color: var(--gold); font-size: 15px; }
+  .pinnote svg { flex: none; }
+  .fact .more { display: inline-block; margin-top: 10px; font-size: 15px; }
+
+  .note { margin: 0; color: var(--mist); font-size: 15px; }
+
+  /* ── RSVP card (page's one raised object) ── */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: clamp(20px, 4.5vw, 32px);
+    box-shadow: 0 24px 60px rgba(3, 4, 20, .45);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    scroll-margin-top: 20px;
+  }
+  .card h2 { margin: 0 0 4px; font: 800 clamp(26px, 5vw, 32px)/1.2 var(--serif); }
+  .card .sub { margin: 0 0 22px; color: var(--mist); font-size: 15px; }
+  .preview-bar {
+    margin: 0 0 18px; padding: 10px 14px; border-radius: 10px;
+    border: 1px dashed var(--seal); color: #ffb3af; font-size: 14px; line-height: 1.5;
+  }
+  .field { margin: 0 0 22px; padding: 0; border: 0; min-width: 0; }
+  .field > label, .field > legend, .field .flabel {
+    display: block; padding: 0; margin: 0 0 8px;
+    color: var(--gold); font-size: 14px; letter-spacing: .08em;
+  }
+  .req { color: var(--seal); margin-left: 2px; }
+  .hint { margin: 8px 0 0; font-size: 14px; color: var(--mist); }
+  .hint.warn { color: var(--gold); }
+  .hint button { margin-left: 6px; }
+  .err { color: #ffb3af; }
+
+  .opt { position: relative; display: block; }
+  .opt input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .opt span {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    min-height: 46px; padding: 8px 14px; border-radius: 12px;
+    border: 1px solid var(--line-strong); color: var(--ink); cursor: pointer;
+    font-size: 16px; line-height: 1.25; transition: background .12s ease, color .12s ease;
+  }
+  .opt span:hover { border-color: var(--gold); }
+  .opt input:checked + span { background: var(--gold); border-color: var(--gold); color: var(--gold-ink); }
+  .opt input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips .opt span { min-height: 42px; border-radius: 999px; padding-inline: 16px; font-size: 15px; }
+  .chips.small .opt span { min-height: 36px; padding-inline: 13px; font-size: 14px; }
+  .custom-time { margin-top: 10px; max-width: 200px; }
+
+  .row { display: flex; align-items: center; gap: 12px; }
+  .stepper { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 3px; }
+  .stepper button {
+    appearance: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+    background: transparent; color: var(--gold); border: 0; font: 22px/1 var(--sans);
+  }
+  .stepper button:hover { background: rgba(233, 199, 126, .12); }
+  .stepper output { min-width: 34px; text-align: center; font: 700 18px var(--serif); font-variant-numeric: tabular-nums; }
+
+  .dish-row { display: flex; gap: 8px; }
+  .dish-row input { flex: 1; min-width: 0; }
+  .field .chips.small { margin-top: 10px; }
+  .mydishes { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .mydishes li {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 6px 6px 14px;
+    border-radius: 999px; background: rgba(233, 199, 126, .14); border: 1px solid rgba(233, 199, 126, .45);
+    font-size: 15px;
+  }
+  .mydishes .c { font-size: 12px; color: var(--gold); }
+  .mydishes button {
+    appearance: none; cursor: pointer; width: 28px; height: 28px; border-radius: 50%;
+    border: 0; background: rgba(255, 244, 226, .12); color: var(--ink); font: 16px/1 var(--sans);
+  }
+  .mydishes button:hover { background: var(--seal); }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 8px; }
+  .actions .btn.primary { flex: 1 1 200px; }
+
+  /* ── Board ──────────────────────────── */
+  .board > section + section { margin-top: 44px; }
+  .tally { margin: 6px 0 16px; color: var(--mist); font-size: 15px; }
+  .tally strong { font: 800 clamp(34px, 8vw, 44px)/1 var(--serif); color: var(--ink); margin-right: 4px; font-variant-numeric: tabular-nums; }
+  .guests { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .guest {
+    appearance: none; width: 100%; text-align: left; cursor: pointer; color: inherit;
+    background: none; border: 0; border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px;
+    padding: 13px 4px; font: inherit;
+  }
+  .guest:hover .gname { color: var(--gold); }
+  .gname { font: 700 19px/1.3 var(--serif); overflow-wrap: anywhere; }
+  .gmeta { grid-column: 1; color: var(--mist); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .pill {
+    grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    font-size: 13px; line-height: 1; padding: 7px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .pill.yes { background: var(--gold); color: var(--gold-ink); }
+  .pill.maybe { border: 1px solid var(--mist); color: var(--mist); }
+  .pill.no { border: 1px solid var(--line-strong); color: rgba(169, 177, 214, .6); }
+  .guest.is-no .gname { color: rgba(255, 244, 226, .55); }
+  .empty { margin: 14px 0 0; color: var(--mist); font-size: 15px; }
+
+  .menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 22px; margin-top: 18px; }
+  .menu .cat.main { grid-column: 1 / -1; }
+  .cat h3 { margin: 0 0 8px; font: 700 15px/1.2 var(--sans); color: var(--gold); letter-spacing: .06em; }
+  .cat ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .cat.main ul { flex-direction: row; flex-wrap: wrap; gap: 4px 22px; }
+  .cat li { font: 700 19px/1.4 var(--serif); overflow-wrap: anywhere; }
+  .cat li .by { font: 400 14px var(--sans); color: var(--mist); margin-left: 6px; }
+  .cat li .ex { font: 400 12px var(--sans); color: var(--gold); border: 1px solid rgba(233, 199, 126, .5); border-radius: 4px; padding: 1px 6px; margin-left: 8px; vertical-align: 2px; }
+  .cat .none { margin: 0; color: rgba(169, 177, 214, .6); font-size: 14px; }
+  .menu.is-example li:not(.none) { opacity: .5; }
+
+  .funlist { list-style: none; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .funlist li { font: 700 19px/1.4 var(--serif); overflow-wrap: anywhere; }
+  .funlist li .by { font: 400 14px var(--sans); color: var(--mist); margin-left: 6px; }
+
+  /* ── Parking / map ──────────────────── */
+  .parking .body { margin: 0 0 8px; color: var(--mist); font-size: 16px; max-width: 42ch; }
+  .map {
+    position: relative; margin: 16px 0 0; width: 100%; max-width: 380px;
+    border-radius: 16px; overflow: hidden; border: 1px solid var(--line);
+    aspect-ratio: 1102 / 1332; background: #f3f3f3;
+  }
+  .map img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tag {
+    position: absolute; transform: translate(-50%, -50%); white-space: nowrap;
+    background: var(--seal); color: var(--ink); padding: 5px 10px; border-radius: 6px;
+    font-size: 13px; line-height: 1.2; box-shadow: 0 3px 10px rgba(0, 0, 0, .3);
+  }
+  .arrive { margin-top: 28px; }
+  .phone { display: inline-block; margin-top: 2px; font: 700 clamp(24px, 5vw, 28px)/1.3 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+  .phone:hover { color: var(--gold); }
+
+  footer { margin-top: 60px; text-align: center; font: 400 26px/1 var(--hand); color: var(--gold); }
+
+  .toast {
+    position: fixed; z-index: 10; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+    max-width: calc(100% - 32px); padding: 12px 20px; border-radius: 999px;
+    background: var(--ink); color: var(--gold-ink); font-size: 15px; text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .4);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+</style>
+
+</head>
+<body>
+<div class="sky" aria-hidden="true"><canvas id="stars"></canvas></div>
+
+<div class="page">
+  <header class="hero">
+    <div class="moon" aria-hidden="true"></div>
+    <p class="eyebrow">2026 한가위를 애리조나에서…</p>
+    <h1>추석 포트럭</h1>
+    <p class="lede">달도 차고 배도 차는 날, 빈손만 아니면 됩니다…</p>
+    <div class="hero-actions">
+      <a class="btn" href="#rsvp">참석 알려주기</a>
+      <span class="dday" id="dday" hidden></span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="col">
+      <section class="info" aria-label="일시와 장소">
+        <div class="fact">
+          <h2 class="lbl">언제</h2>
+          <p class="val">9월 24일 (목) 저녁 6시</p>
+        </div>
+        <div class="fact">
+          <h2 class="lbl">어디서</h2>
+          <p class="val">나영이집</p>
+          <p class="addr">1979 E Rio Salado Pkwy,<br>Tempe, AZ 85288</p>
+          <p class="pinnote">
+            <svg width="16" height="18" viewBox="0 0 16 18" fill="none" aria-hidden="true"><path d="M8 17s6-5.2 6-10A6 6 0 0 0 2 7c0 4.8 6 10 6 10Z" stroke="#E9C77E" stroke-width="1.5"/><circle cx="8" cy="7" r="2.2" fill="#E9C77E"/></svg>
+            아파트 입구 위치
+          </p>
+          <a class="more" href="https://www.google.com/maps/search/?api=1&query=1979+E+Rio+Salado+Pkwy+Tempe+AZ+85288" target="_blank" rel="noopener">Google Map ›</a>
+        </div>
+      </section>
+
+      <section class="parking" aria-label="주차와 도착">
+        <div class="fact">
+          <h2 class="lbl">주차</h2>
+          <p class="body">아파트엔 Future Resident 4–5자리밖에 없어서 근처 스트릿 파킹 하고 걸어오는 게 편해요.</p>
+          <div class="map">
+            <img alt="아파트 주변 지도. 위쪽에 게스트파킹, 가운데에 아파트, 아래쪽 E 3rd St에 스트릿파킹 위치가 표시돼 있어요." src="map.jpg" width="720" height="870">
+            <span class="tag" style="left:66%;top:14%">게스트파킹</span>
+            <span class="tag" style="left:58%;top:27%">아파트</span>
+            <span class="tag" style="left:62%;top:88%">스트릿파킹</span>
+          </div>
+          <a class="more" href="https://www.google.com/maps/search/?api=1&query=1979+E+Rio+Salado+Pkwy+Tempe+AZ+85288" target="_blank" rel="noopener">주차 위치 Google Map ›</a>
+        </div>
+        <div class="fact arrive">
+          <h2 class="lbl">도착하면</h2>
+          <p class="note">아파트 입구 쪽으로 걸어오면서 연락 주세요</p>
+          <a class="phone" href="tel:+15128650865">512-865-0865</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+            <div class="board">
+        <section aria-labelledby="whoTitle">
+          <h2 class="lbl" id="whoTitle">누가 오나요</h2>
+          <p class="tally" id="tally" aria-live="polite"></p>
+          <ul class="guests" id="guestList"></ul>
+          <p class="empty" id="guestEmpty" hidden>아직 응답이 없어요. 첫 번째로 알려주세요.</p>
+        </section>
+
+        <section aria-labelledby="whatTitle">
+          <h2 class="lbl" id="whatTitle">뭐 가져올까요</h2>
+          <p class="note">겹치지 않게 미리 찜해주세요 · 참석 인원은 9/22 (화) 까지</p>
+          <div class="menu" id="menu"></div>
+        </section>
+      <section class="rsvp card" id="rsvp" aria-labelledby="rsvpTitle">
+        <h2 id="rsvpTitle">참석 알려주기</h2>
+        <p class="preview-bar" id="previewBar" hidden>미리보기 모드예요. 서버에 연결되지 않아서 입력한 내용이 이 화면에서만 보이고 저장되지 않아요.</p>
+
+        <form id="form" autocomplete="off" novalidate>
+          <div class="field">
+            <label for="name">이름<span class="req" aria-hidden="true"> *</span></label>
+            <input type="text" id="name" name="name" maxlength="20" placeholder="예: 나영" enterkeyhint="next">
+            <p class="hint err" id="nameErr" hidden>이름을 먼저 적어주세요.</p>
+            <p class="hint warn" id="nameHint" hidden></p>
+          </div>
+
+          <fieldset class="field">
+            <legend>참석 여부<span class="req" aria-hidden="true"> *</span></legend>
+            <div class="seg">
+              <label class="opt"><input type="radio" name="status" value="yes" checked><span>네! </span></label>
+              <label class="opt"><input type="radio" name="status" value="maybe"><span>아마도?</span></label>
+              <label class="opt"><input type="radio" name="status" value="no"><span>아니요..</span></label>
+            </div>
+          </fieldset>
+
+          <div id="comingWrap">
+            <fieldset class="field">
+              <legend>예상 도착 시간<span class="req" aria-hidden="true"> *</span></legend>
+              <div class="chips" id="times">
+                <label class="opt"><input type="radio" name="arrive" value="17:30" checked><span>5:30 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="17:50"><span>5:50 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:00"><span>6:00 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:10"><span>6:10 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:30"><span>6:30 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="other"><span>다른 시간</span></label>
+              </div>
+              <div class="custom-time" id="customWrap" hidden>
+                <input type="time" id="customTime" aria-label="도착 시간 직접 입력">
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <span class="flabel" id="partyLbl">함께 오는 인원 (나 포함)<span class="req" aria-hidden="true"> *</span></span>
+              <div class="row">
+                <div class="stepper" role="group" aria-labelledby="partyLbl">
+                  <button type="button" id="partyMinus" aria-label="한 명 줄이기">−</button>
+                  <output id="partyOut" aria-live="polite">1</output>
+                  <button type="button" id="partyPlus" aria-label="한 명 늘리기">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="dish">가져올 음식<span class="req" aria-hidden="true"> *</span></label>
+              <div class="dish-row">
+                <input type="text" id="dish" maxlength="30" placeholder="예: 잡채, 송편, 탄산…" enterkeyhint="done">
+                <button type="button" class="btn ghost" id="addDish">추가</button>
+              </div>
+              <div class="chips small" role="radiogroup" aria-label="음식 종류">
+                <label class="opt"><input type="radio" name="cat" value="main" checked><span>메인 · 디저트</span></label>
+                <label class="opt"><input type="radio" name="cat" value="side"><span>반찬 · 전</span></label>
+                <label class="opt"><input type="radio" name="cat" value="drink"><span>음료 · 술</span></label>
+              </div>
+              <p class="hint err" id="dishErr" hidden>음식을 하나 이상 추가해주세요.</p>
+              <p class="hint warn" id="dupHint" hidden></p>
+              <ul class="mydishes" id="myDishes" aria-label="내가 추가한 음식"></ul>
+            </div>
+
+            <div class="field">
+              <label for="activity">우리 뭐할까요?</label>
+              <input type="text" id="activity" name="activity" maxlength="40" placeholder="예: 윷놀이, 보드게임, 노래방…" enterkeyhint="done">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn primary" id="saveBtn">저장하기</button>
+            <button type="button" class="link danger" id="delBtn" hidden>내 응답 지우기</button>
+          </div>
+        </form>
+      </section>
+
+
+
+        <section aria-labelledby="funTitle">
+          <h2 class="lbl" id="funTitle">우리 뭐할까요</h2>
+          <ul class="funlist" id="funList"></ul>
+          <p class="empty" id="funEmpty" hidden>아직 추천이 없어요.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>달 밝은 밤에 봐요</footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+
+  const $ = (id) => document.getElementById(id);
+  const h = (tag, props, ...kids) => {
+    const el = document.createElement(tag);
+    for (const k in (props || {})) {
+      const v = props[k];
+      if (k === 'class') el.className = v;
+      else if (k === 'text') el.textContent = v;
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v);
+    }
+    for (const c of kids) if (c != null && c !== false) el.append(c);
+    return el;
+  };
+
+  const CATS = [
+    { k: 'main', label: '메인 · 디저트', short: '메인' },
+    { k: 'side', label: '반찬 · 전', short: '반찬' },
+    { k: 'drink', label: '음료 · 술', short: '음료' },
+  ];
+  const CAT_KEYS = CATS.map((c) => c.k);
+  const STATUSES = ['yes', 'maybe', 'no'];
+  const STATUS_LABEL = { yes: '갈게요', maybe: '아마도', no: '못 가요' };
+  const TIMES = ['18:00', '18:30', '19:00', '19:30', '20:00'];
+  const EXAMPLE = { main: [['잡채', '나영'], ['송편'], ['디저트'], ['과일', '은경']], side: [['새우장', '민호']], drink: [['주스', '나영'], ['탄산', '은경']] };
+  const MAX_DISHES = 8;
+
+  // ── helpers ──────────────────────────
+  const cleanName = (s) => (s || '').normalize('NFC').replace(/\s+/g, ' ').trim().slice(0, 20);
+  const nameId = (n) => {
+    // doc id는 한글이 안 돼서 이름의 UTF-8 바이트를 16진수로 바꿔 씁니다 (같은 이름 = 같은 응답)
+    let s = 'g_';
+    new TextEncoder().encode(n.toLowerCase()).forEach((b) => { s += b.toString(16).padStart(2, '0'); });
+    return s;
+  };
+  const norm = (s) => s.replace(/\s+/g, '').toLowerCase();
+  const fmtTime = (t) => {
+    const m = /^(\d{1,2}):(\d{2})$/.exec(t || '');
+    if (!m) return '';
+    const H = +m[1];
+    return `${H % 12 || 12}:${m[2]} ${H >= 12 ? 'PM' : 'AM'}`;
+  };
+  const guessCat = (t) => {
+    if (/(술|맥주|와인|소주|막걸리|사케|음료|주스|쥬스|탄산|콜라|사이다|커피|차$|beer|wine|soda|juice|cola|tea|coffee)/i.test(t)) return 'drink';
+    if (/(전$|나물|반찬|김치|장$|무침|조림|볶음|샐러드|튀김|salad)/i.test(t)) return 'side';
+    return 'main';
+  };
+  const toGuest = (id, raw) => {
+    if (!raw || typeof raw !== 'object') return null;
+    const name = cleanName(String(raw.name || ''));
+    if (!name) return null;
+    return {
+      id, name,
+      status: STATUSES.includes(raw.status) ? raw.status : 'yes',
+      party: Math.min(8, Math.max(1, parseInt(raw.party, 10) || 1)),
+      arrive: /^\d{1,2}:\d{2}$/.test(raw.arrive || '') ? raw.arrive : null,
+      dishes: (Array.isArray(raw.dishes) ? raw.dishes : []).slice(0, MAX_DISHES)
+        .map((d) => ({ t: String((d && d.t) || '').trim().slice(0, 30), c: CAT_KEYS.includes(d && d.c) ? d.c : 'main' }))
+        .filter((d) => d.t),
+      activity: String(raw.activity || '').trim().slice(0, 40),
+      updatedAt: Number(raw.updatedAt) || 0,
+    };
+  };
+
+  let toastTimer;
+  const toast = (msg) => {
+    const el = $('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  };
+
+  // ── state ────────────────────────────
+  const st = {
+    mode: 'pending', // pending → shared (공유 DB) | local (미리보기)
+    guests: [],
+    status: 'yes', arriveMode: '18:00', custom: '', party: 1,
+    dishes: [], cat: 'main', catPicked: false, activity: '',
+    loadedId: null, currentId: null, existing: null,
+    saving: false, delArmed: false, firstSnap: true,
+  };
+  let store = null;
+
+  const nameEl = $('name'), dishEl = $('dish'), customEl = $('customTime'), activityEl = $('activity');
+
+  // ── stores ───────────────────────────
+  const localStore = () => {
+    const m = new Map();
+    let cb = () => {};
+    const push = () => cb([...m.values()]);
+    return {
+      subscribe(f) { cb = f; push(); },
+      async save(id, d) { m.set(id, { ...d, id }); push(); },
+      async remove(id) { m.delete(id); push(); },
+    };
+  };
+  const apiStore = () => {
+    let cb = () => {};
+    const load = async () => {
+      const r = await fetch('/api/guests', { cache: 'no-store' });
+      if (!r.ok) throw new Error('http ' + r.status);
+      return (await r.json()).guests;
+    };
+    const refresh = async () => { try { cb(await load()); } catch (e) { /* 다음 주기에 다시 */ } };
+    const send = async (method, body) => {
+      const r = await fetch('/api/guests', { method, headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      if (!r.ok) { const e = new Error('http ' + r.status); e.code = r.status === 429 ? 'resource_exhausted' : 'unavailable'; throw e; }
+    };
+    return {
+      probe: load,
+      subscribe(f) { cb = f; refresh(); setInterval(() => { if (!document.hidden) refresh(); }, 8000); },
+      async save(id, d) { await send('POST', { id, ...d }); await refresh(); },
+      async remove(id) { await send('DELETE', { id }); await refresh(); },
+    };
+  };
+
+  const onGuests = (rows) => {
+    const sig = JSON.stringify(rows);
+    if (sig === st.sig) return;
+    st.sig = sig;
+    st.guests = rows.map((r) => toGuest(r.id, r)).filter(Boolean);
+    let saved = '';
+    if (st.firstSnap) {
+      st.firstSnap = false;
+      try { saved = localStorage.getItem('chuseok-name') || ''; } catch (e) {}
+      if (saved && !nameEl.value) nameEl.value = saved;
+    }
+    renderNameState();
+    if (saved && st.existing && !st.loadedId) loadGuest(st.existing);
+    else renderAll();
+  };
+
+  // ── render ───────────────────────────
+  const arriveValue = () => (st.arriveMode === 'other' ? (st.custom || null) : st.arriveMode);
+
+  function renderNameState() {
+    const n = cleanName(nameEl.value);
+    st.currentId = n ? nameId(n) : null;
+    st.existing = st.currentId ? st.guests.find((g) => g.id === st.currentId) || null : null;
+    if (!st.existing) st.delArmed = false;
+    const hint = $('nameHint');
+    if (st.existing && st.loadedId !== st.currentId) {
+      hint.replaceChildren(
+        `${st.existing.name}님 응답이 이미 있어요.`,
+        h('button', { type: 'button', class: 'link', text: '내 응답 불러오기', onclick: () => loadGuest(st.existing) })
+      );
+      hint.hidden = false;
+    } else {
+      hint.hidden = true;
+    }
+    if (n) $('nameErr').hidden = true;
+  }
+
+  function syncForm() {
+    for (const r of document.querySelectorAll('input[name="status"]')) r.checked = r.value === st.status;
+    for (const r of document.querySelectorAll('input[name="arrive"]')) r.checked = r.value === st.arriveMode;
+    for (const r of document.querySelectorAll('input[name="cat"]')) r.checked = r.value === st.cat;
+    $('customWrap').hidden = st.arriveMode !== 'other';
+    $('comingWrap').hidden = st.status === 'no';
+    $('partyOut').textContent = st.party;
+
+    const del = $('delBtn');
+    del.hidden = !st.existing;
+    del.textContent = st.delArmed ? '정말 지울까요? 한 번 더 누르면 지워져요' : '내 응답 지우기';
+    const save = $('saveBtn');
+    save.disabled = st.saving || st.mode === 'pending';
+    save.textContent = st.mode === 'pending' ? '연결 중…' : st.saving ? '저장 중…' : st.existing ? '수정하기' : '저장하기';
+    $('previewBar').hidden = st.mode !== 'local';
+  }
+
+  function renderMyDishes() {
+    if (st.dishes.length) $('dishErr').hidden = true;
+    $('myDishes').replaceChildren(...st.dishes.map((d, i) => {
+      const cat = CATS.find((c) => c.k === d.c);
+      return h('li', null,
+        h('span', { class: 'c', text: cat.short }),
+        d.t,
+        h('button', { type: 'button', 'aria-label': `${d.t} 빼기`, text: '×', onclick: () => { st.dishes.splice(i, 1); renderAll(); } })
+      );
+    }));
+  }
+
+  function renderDupHint() {
+    const t = norm(dishEl.value);
+    const hint = $('dupHint');
+    if (t.length < 1) { hint.hidden = true; return; }
+    const owners = [];
+    for (const g of st.guests) {
+      if (g.status === 'no' || g.id === st.currentId) continue;
+      const hit = g.dishes.find((d) => {
+        const o = norm(d.t);
+        return o === t || (o.length >= 2 && t.length >= 2 && (o.includes(t) || t.includes(o)));
+      });
+      if (hit) owners.push(`${g.name}님이 ${hit.t}`);
+    }
+    if (owners.length) {
+      hint.textContent = `${owners.slice(0, 2).join(', ')} 가져와요. 겹쳐도 괜찮으면 그대로 추가하세요.`;
+      hint.hidden = false;
+    } else hint.hidden = true;
+  }
+
+  function renderGuests() {
+    const order = { yes: 0, maybe: 1, no: 2 };
+    const sorted = [...st.guests].sort((a, b) =>
+      order[a.status] - order[b.status] ||
+      (a.arrive || '99:99').localeCompare(b.arrive || '99:99') ||
+      a.name.localeCompare(b.name, 'ko'));
+    const yes = st.guests.filter((g) => g.status === 'yes');
+    const heads = yes.reduce((n, g) => n + g.party, 0);
+    const maybe = st.guests.filter((g) => g.status === 'maybe').length;
+    const no = st.guests.filter((g) => g.status === 'no').length;
+    $('tally').replaceChildren(
+      h('strong', { text: String(heads) }), '명 참석 예정',
+      h('span', { text: ` · 아마도 ${maybe} · 못 가요 ${no}` })
+    );
+    $('guestEmpty').hidden = sorted.length > 0;
+    $('guestList').replaceChildren(...sorted.map((g) => {
+      const meta = g.status === 'no' ? '' : [fmtTime(g.arrive), g.party > 1 ? `${g.party}명` : ''].filter(Boolean).join(' · ');
+      return h('li', null,
+        h('button', { type: 'button', class: 'guest' + (g.status === 'no' ? ' is-no' : ''), 'aria-label': `${g.name}님 응답 고치기`, onclick: () => { loadGuest(g); $('rsvp').scrollIntoView({ block: 'start' }); } },
+          h('span', { class: 'gname', text: g.name }),
+          meta ? h('span', { class: 'gmeta', text: meta }) : null,
+          h('span', { class: 'pill ' + g.status, text: STATUS_LABEL[g.status] })
+        ));
+    }));
+  }
+
+  function renderMenu() {
+    const byCat = { main: [], side: [], drink: [] };
+    for (const g of st.guests) {
+      if (g.status === 'no') continue;
+      for (const d of g.dishes) byCat[d.c].push({ t: d.t, by: g.name });
+    }
+    const total = CAT_KEYS.reduce((n, k) => n + byCat[k].length, 0);
+    const example = total === 0;
+    const menu = $('menu');
+    menu.classList.toggle('is-example', example);
+    menu.replaceChildren(...CATS.map((c) => {
+      const items = example ? EXAMPLE[c.k].map(([t, by]) => ({ t, by, ex: true })) : byCat[c.k];
+      const ul = h('ul', null, ...items.map((it, i) => h('li', null,
+        it.t,
+        it.by ? h('span', { class: 'by', text: it.by }) : null,
+        it.ex && c.k === 'main' && i === 0 ? h('span', { class: 'ex', text: '예시' }) : null,
+        it.ex && c.k !== 'main' && i === 0 ? h('span', { class: 'ex', text: '예시' }) : null
+      )));
+      if (!items.length) ul.append(h('li', { class: 'none' }, h('p', { class: 'none', text: '아직 비어 있어요. 먼저 찜해보세요.' })));
+      return h('div', { class: 'cat ' + c.k }, h('h3', { text: c.label }), ul);
+    }));
+  }
+
+  function renderFun() {
+    const items = st.guests.filter((g) => g.status !== 'no' && g.activity).map((g) => ({ t: g.activity, by: g.name }));
+    $('funList').replaceChildren(...items.map((it) => h('li', null, it.t, h('span', { class: 'by', text: it.by }))));
+    $('funEmpty').hidden = items.length > 0;
+  }
+
+  function renderAll() {
+    renderNameState();
+    syncForm();
+    renderMyDishes();
+    renderDupHint();
+    renderGuests();
+    renderMenu();
+    renderFun();
+  }
+
+  function loadGuest(g) {
+    nameEl.value = g.name;
+    st.status = g.status;
+    st.party = g.party;
+    st.dishes = g.dishes.map((d) => ({ ...d }));
+    st.activity = g.activity || '';
+    activityEl.value = st.activity;
+    if (g.arrive && !TIMES.includes(g.arrive)) { st.arriveMode = 'other'; st.custom = g.arrive; }
+    else { st.arriveMode = g.arrive || '18:00'; st.custom = ''; }
+    customEl.value = st.custom;
+    st.loadedId = g.id;
+    st.delArmed = false;
+    renderAll();
+  }
+
+  // ── actions ──────────────────────────
+  function addDish(text, cat) {
+    text = text.replace(/\s+/g, ' ').trim().slice(0, 30);
+    if (!text) return false;
+    if (st.dishes.length >= MAX_DISHES) { toast(`음식은 최대 ${MAX_DISHES}개까지 넣을 수 있어요`); return false; }
+    if (st.dishes.some((d) => norm(d.t) === norm(text))) { toast('이미 넣은 음식이에요'); return false; }
+    st.dishes.push({ t: text, c: cat });
+    st.catPicked = false;
+    renderAll();
+    return true;
+  }
+  function addFromInput() {
+    if (addDish(dishEl.value, st.cat)) { dishEl.value = ''; renderDupHint(); }
+    dishEl.focus();
+  }
+
+  const errMsg = (e) => {
+    const c = e && e.code;
+    if (c === 'invalid_argument') return '이 링크로는 저장할 수 없어요. 보기만 가능한 링크예요.';
+    if (c === 'quota_exceeded') return '저장 공간이 가득 찼어요. 초대한 사람에게 알려주세요.';
+    if (c === 'resource_exhausted') return '요청이 몰렸어요. 잠시 뒤에 다시 눌러주세요.';
+    return '저장하지 못했어요. 잠시 뒤에 다시 눌러주세요.';
+  };
+  const withRetry = async (fn) => {
+    try { return await fn(); }
+    catch (e) {
+      if (e && e.code === 'unavailable') { await new Promise((r) => setTimeout(r, 600 + Math.random() * 400)); return fn(); }
+      throw e;
+    }
+  };
+
+  async function onSubmit(ev) {
+    ev.preventDefault();
+    if (st.saving || st.mode === 'pending') return;
+    const name = cleanName(nameEl.value);
+    if (!name) { $('nameErr').hidden = false; nameEl.focus(); return; }
+    if (dishEl.value.trim() && st.status !== 'no') { if (addDish(dishEl.value, st.cat)) dishEl.value = ''; }
+    if (st.status !== 'no' && st.dishes.length === 0) { $('dishErr').hidden = false; dishEl.focus(); return; }
+    const id = nameId(name);
+    const away = st.status === 'no';
+    const doc = {
+      name, status: st.status,
+      arrive: away ? null : arriveValue(),
+      party: away ? 0 : st.party,
+      dishes: away ? [] : st.dishes.map((d) => ({ t: d.t, c: d.c })),
+      activity: away ? '' : activityEl.value.trim().slice(0, 40),
+      updatedAt: Date.now(),
+    };
+    st.saving = true; syncForm();
+    try {
+      await withRetry(() => store.save(id, doc));
+      st.loadedId = id;
+      try { localStorage.setItem('chuseok-name', name); } catch (e) {}
+      toast(away ? `${name}님, 알려줘서 고마워요` : `${name}님, 저장했어요. 그날 봐요!`);
+    } catch (e) {
+      toast(errMsg(e));
+    } finally {
+      st.saving = false; renderAll();
+    }
+  }
+
+  async function onDelete() {
+    if (!st.existing) return;
+    if (!st.delArmed) { st.delArmed = true; syncForm(); return; }
+    const id = st.existing.id, nm = st.existing.name;
+    st.delArmed = false;
+    try {
+      await withRetry(() => store.remove(id));
+      st.loadedId = null;
+      st.dishes = [];
+      st.activity = '';
+      activityEl.value = '';
+      toast(`${nm}님 응답을 지웠어요`);
+    } catch (e) { toast(errMsg(e)); }
+    renderAll();
+  }
+
+  // ── wiring ───────────────────────────
+  $('form').addEventListener('submit', onSubmit);
+  $('delBtn').addEventListener('click', onDelete);
+  $('addDish').addEventListener('click', addFromInput);
+  $('partyMinus').addEventListener('click', () => { st.party = Math.max(1, st.party - 1); syncForm(); });
+  $('partyPlus').addEventListener('click', () => { st.party = Math.min(8, st.party + 1); syncForm(); });
+  $('form').addEventListener('change', (e) => {
+    const t = e.target;
+    if (t.name === 'status') st.status = t.value;
+    else if (t.name === 'arrive') st.arriveMode = t.value;
+    else if (t.name === 'cat') { st.cat = t.value; st.catPicked = true; }
+    else return;
+    syncForm();
+  });
+  customEl.addEventListener('input', () => { st.custom = customEl.value; });
+  nameEl.addEventListener('input', () => { st.delArmed = false; renderNameState(); renderDupHint(); syncForm(); });
+  dishEl.addEventListener('input', () => {
+    if (!st.catPicked && dishEl.value.trim()) { st.cat = guessCat(dishEl.value); syncForm(); }
+    renderDupHint();
+  });
+  dishEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); addFromInput(); }
+  });
+
+  // ── connect (공유 DB가 있으면 실시간 공유, 없으면 미리보기) ──
+  (async () => {
+    const api = apiStore();
+    try {
+      await api.probe();
+      store = api; st.mode = 'shared';
+    } catch (e) {
+      store = localStore(); st.mode = 'local';
+    }
+    store.subscribe(onGuests);
+    syncForm();
+  })();
+
+  // ── extras ───────────────────────────
+  (function dday() {
+    try {
+      const today = Date.parse(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Phoenix' }).format(new Date()) + 'T00:00:00Z');
+      const d = Math.round((Date.parse('2026-09-24T00:00:00Z') - today) / 864e5);
+      const el = $('dday');
+      if (d > 0) { el.textContent = 'D-' + d; el.hidden = false; }
+      else if (d === 0) { el.textContent = 'D-Day · 오늘 저녁 6시'; el.hidden = false; }
+    } catch (e) {}
+  })();
+
+  (function stars() {
+    const c = $('stars');
+    let lastW = 0;
+    const draw = () => {
+      const w = window.innerWidth, hh = Math.max(window.innerHeight, 900);
+      if (w === lastW) return;
+      lastW = w;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      c.width = w * dpr; c.height = hh * dpr;
+      const ctx = c.getContext('2d');
+      if (!ctx) return;
+      ctx.scale(dpr, dpr);
+      let s = 20260924;
+      const rnd = () => (s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296;
+      const n = Math.round((w * hh) / 6500);
+      for (let i = 0; i < n; i++) {
+        const x = rnd() * w, y = rnd() * hh;
+        const r = 0.4 + Math.pow(rnd(), 3) * 1.4;
+        ctx.globalAlpha = 0.25 + rnd() * 0.6;
+        ctx.fillStyle = rnd() > 0.7 ? '#FFF4E2' : '#C9CFEA';
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+      }
+    };
+    try { draw(); } catch (e) {}
+    let t;
+    window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(() => { try { draw(); } catch (e) {} }, 200); });
+  })();
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
