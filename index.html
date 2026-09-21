@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0b0d29">
 <meta property="og:type" content="website">
 <meta property="og:title" content="추석 포트럭">
-<meta property="og:description" content="9월 24일 (목) 저녁 6시 · Tempe, AZ · 달도 차고 배도 차는 날, 빈손만 아니면 됩니다…">
+<meta property="og:description" content="9월 24일 (목) 저녁 6시 반 · Tempe, AZ · 달도 차고 배도 차는 날, 빈손만 아니면 됩니다…">
 <meta property="og:url" content="https://chuseok-site.vercel.app/">
 <meta property="og:image" content="https://chuseok-site.vercel.app/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -311,7 +311,7 @@
       <section class="info" aria-label="일시와 장소">
         <div class="fact">
           <h2 class="lbl">언제</h2>
-          <p class="val">9월 24일 (목) 저녁 6시</p>
+          <p class="val">9월 24일 (목) 저녁 6시 반</p>
         </div>
         <div class="fact">
           <h2 class="lbl">어디서</h2>
@@ -389,11 +389,11 @@
             <fieldset class="field">
               <legend>예상 도착 시간<span class="req" aria-hidden="true"> *</span></legend>
               <div class="chips" id="times">
-                <label class="opt"><input type="radio" name="arrive" value="17:30" checked><span>5:30 PM</span></label>
-                <label class="opt"><input type="radio" name="arrive" value="17:50"><span>5:50 PM</span></label>
                 <label class="opt"><input type="radio" name="arrive" value="18:00"><span>6:00 PM</span></label>
-                <label class="opt"><input type="radio" name="arrive" value="18:10"><span>6:10 PM</span></label>
-                <label class="opt"><input type="radio" name="arrive" value="18:30"><span>6:30 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:20"><span>6:20 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:30" checked><span>6:30 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="18:40"><span>6:40 PM</span></label>
+                <label class="opt"><input type="radio" name="arrive" value="19:00"><span>7:00 PM</span></label>
                 <label class="opt"><input type="radio" name="arrive" value="other"><span>다른 시간</span></label>
               </div>
               <div class="custom-time" id="customWrap" hidden>
@@ -475,7 +475,7 @@
   const CAT_KEYS = CATS.map((c) => c.k);
   const STATUSES = ['yes', 'maybe', 'no'];
   const STATUS_LABEL = { yes: '갈게요', maybe: '아마도', no: '못 가요' };
-  const TIMES = ['18:00', '18:30', '19:00', '19:30', '20:00'];
+  const TIMES = ['18:00', '18:20', '18:30', '18:40', '19:00'];
   const EXAMPLE = { main: [['잡채', '나영'], ['송편'], ['디저트'], ['과일', '은경']], side: [['새우장', '민호']], drink: [['주스', '나영'], ['탄산', '은경']] };
   const MAX_DISHES = 8;
 
@@ -529,7 +529,7 @@
   const st = {
     mode: 'pending', // pending → shared (공유 DB) | local (미리보기)
     guests: [],
-    status: 'yes', arriveMode: '18:00', custom: '', party: 1,
+    status: 'yes', arriveMode: '18:30', custom: '', party: 1,
     dishes: [], cat: 'main', catPicked: false, activity: '',
     loadedId: null, currentId: null, existing: null,
     saving: false, delArmed: false, firstSnap: true,
@@ -726,7 +726,7 @@
     st.activity = g.activity || '';
     activityEl.value = st.activity;
     if (g.arrive && !TIMES.includes(g.arrive)) { st.arriveMode = 'other'; st.custom = g.arrive; }
-    else { st.arriveMode = g.arrive || '18:00'; st.custom = ''; }
+    else { st.arriveMode = g.arrive || '18:30'; st.custom = ''; }
     customEl.value = st.custom;
     st.loadedId = g.id;
     st.delArmed = false;
@@ -854,7 +854,7 @@
       const d = Math.round((Date.parse('2026-09-24T00:00:00Z') - today) / 864e5);
       const el = $('dday');
       if (d > 0) { el.textContent = 'D-' + d; el.hidden = false; }
-      else if (d === 0) { el.textContent = 'D-Day · 오늘 저녁 6시'; el.hidden = false; }
+      else if (d === 0) { el.textContent = 'D-Day · 오늘 저녁 6시 반'; el.hidden = false; }
     } catch (e) {}
   })();
 
