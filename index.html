@@ -359,6 +359,7 @@
         </section>
       <section class="rsvp card" id="rsvp" aria-labelledby="rsvpTitle">
         <h2 id="rsvpTitle">참석 알려주기</h2>
+        <p class="preview-bar" id="previewBar" hidden>미리보기 모드예요. 서버에 연결되지 않아서 입력한 내용이 이 화면에서만 보이고 저장되지 않아요.</p>
         <form id="form" autocomplete="off" novalidate>
           <div class="field">
             <label for="name">이름<span class="req" aria-hidden="true"> *</span></label>
@@ -619,7 +620,8 @@
     const save = $('saveBtn');
     save.disabled = st.saving || st.mode === 'pending';
     save.textContent = st.mode === 'pending' ? '연결 중…' : st.saving ? '저장 중…' : st.existing ? '수정하기' : '저장하기';
-    $('previewBar').hidden = st.mode !== 'local';
+    const previewBar = document.getElementById('previewBar');
+    if (previewBar) previewBar.hidden = st.mode !== 'local';
   }
 
   function renderMyDishes() {
